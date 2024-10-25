@@ -1,4 +1,11 @@
-﻿using AlunosAPI.Models;
+﻿#region Features History
+/*
+    FEATURE_DATE: 25/10/2024
+    FEATURE: Added new Classes
+ */
+#endregion
+
+using AlunosAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlunosAPI.Context;

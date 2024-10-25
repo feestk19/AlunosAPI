@@ -1,50 +1,73 @@
 ﻿#region Features History
 /*
     FEATURE_DATE: 25/10/2024
-    FEATURE: Added new Classes
+    FEATURE: Concrete methods implemented.
  */
 #endregion
 
+using AlunosAPI.Context;
 using AlunosAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlunosAPI.Services;
 
 public class StudentService : IStudentService
 {
-    public Task<IEnumerable<Aluno>> GetStudents()
+    private readonly AppDbContext _context;
+
+    public StudentService(AppDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task<Aluno> GetStudentById(int id)
+    public async Task<IEnumerable<Aluno>> GetStudents()
     {
-        throw new NotImplementedException();
+        try
+        {
+            return await _context.Alunos.ToListAsync();
+        }
+        catch
+        {
+            throw;
+        }
     }
 
-    public Task<IEnumerable<Aluno>> GetStudentsByName(string name)
+    public async Task<IEnumerable<Aluno>> GetStudentsByName(string name)
     {
-        throw new NotImplementedException();
+        IEnumerable<Aluno> students;
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            students = await _context.Alunos.Where(n => n.Nome.Contains(name)).ToListAsync();
+        }
+        else
+        {
+            students = await GetStudents();
+        }
+
+        return students;
     }
 
-    public Task CreateStudent(Aluno stundent)
+    public async Task<Aluno> GetStudentById(int id)
     {
-        throw new NotImplementedException();
+        var student = await _context.Alunos.FindAsync(id);
+        return student;
     }
 
-    public Task UpdateStudent(Aluno stundent)
+    public async Task CreateStudent(Aluno student)
     {
-        throw new NotImplementedException();
+        _context.Alunos.Add(student);
+        await _context.SaveChangesAsync();
     }
 
-    public Task DeleteStudent(Aluno stundent)
+    public async Task UpdateStudent(Aluno student)
     {
-        throw new NotImplementedException();
+        _context.Entry(student).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
     }
 
-
-
-
-
-
-
+    public async Task DeleteStudent(Aluno student)
+    {
+        _context.Alunos.Remove(student);
+        await _context.SaveChangesAsync();
+    }
 }

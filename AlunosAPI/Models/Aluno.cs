@@ -1,4 +1,10 @@
-﻿namespace AlunosAPI.Models;
+﻿#region Features History
+/*
+    FEATURE_DATE: 25/10/2024
+    FEATURE: Added maintenance coment
+ */
+#endregion
+namespace AlunosAPI.Models;
 
 public class Aluno
 {

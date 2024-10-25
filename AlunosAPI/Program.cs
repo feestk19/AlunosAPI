@@ -1,4 +1,12 @@
+#region Features History
+/*
+    FEATURE_DATE: 25/10/2024
+    FEATURE: Added maintenance coment
+ */
+#endregion
+
 using AlunosAPI.Context;
+using AlunosAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +24,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+
+builder.Services.AddScoped<IStudentService, StudentService>();
 
 var app = builder.Build();
 
